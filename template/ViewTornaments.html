@@ -1,0 +1,261 @@
+{% extends "layout/base.html" %}
+{% load static %}
+{% block title %}
+  View Details 
+{% endblock  %}
+
+{% block customStyle %}
+
+<style>
+
+</style>
+
+{% endblock  %}
+
+{% block Content %}
+
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="page-content">
+
+          <!-- ***** Featured Start ***** -->
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="feature-banner header-text">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="thumb">
+                      <img src="{{tornaments_obj.thumbnail.url}}" alt="" style="border-radius: 23px;">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ***** Featured End ***** -->
+
+          <!-- ***** Details Start ***** -->
+          <div class="game-details">
+            <div class="row">
+              <div class="col-lg-12">
+                <h2>{{tornaments_obj.title}}</h2>
+              </div>
+              <div class="col-lg-12">
+                <div class="content">
+                  <div class="row">
+                    <div class="col-lg-6">
+                      <div class="left-info">
+                        <div class="left">
+                          <h4>{{tornaments_obj.selected_game}}</h4>
+                          <span>{{tornaments_obj.game_type}}</span>
+                        </div>
+                        <ul>
+                          <li><i class="fa fa-star"></i> Room Joing Fee : 
+                          {% if tornaments_obj.room_joining == 'anyone_can_join' %}
+                          <strong>Free</strong>
+                          {% else %}
+                          {{tornaments_obj.room_joining_fee}} /- Rs.
+                          {% endif %}  
+                          </li>
+                         <li>
+                          <i class="fa-solid {% if tornaments_obj.room_type == 'public' %} fa-lock-open {% else %} fa-lock {% endif %}"></i>
+                          {% if tornaments_obj.room_type == 'public' %} Room open for join {% else %} Password protected room  {% endif %}
+                        </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="right-info">
+                        <ul>
+                          <li><i class="fa fa-server"></i> Date <br>  {{tornaments_obj.tornament_dt|date:'d-m-Y'}}</li>
+                          <li><i class="fa fa-download"></i>Start Time   {{tornaments_obj.start_tm}}</li>
+                          <li><i class="fa fa-download"></i>End Time  {{tornaments_obj.end_tm}}</li>
+                          <li><i class="fa fa-gamepad"></i> Availablity  {{date_tm}}</li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="right-info">
+                        <ul>
+                          <li style="width:48%" ><i class="fa fa-star"></i> Total Members  <br>
+                          
+                          {{tornaments_obj.room_member}} /
+                          
+                          {% if tornaments_obj.available_seats %}
+                          {{tornaments_obj.available_seats}}
+                          {% else %}
+                          0
+                          {% endif %} </li>
+                          <li style="width:48%" ><i class="fa fa-download"></i>Per Team<br> 
+                          
+                          {% if tornaments_obj.team_member == 'squad' %}
+                            Squad ( 4 people )
+                          {% elif tornaments_obj.team_member == 'duo' %}
+                            Duo ( 2 people )
+                          {% elif tornaments_obj.team_member == 'solo' %}
+                            SOLO ( 1 people )
+                          {% else %}
+                              {{tornaments_obj.custom_team}} people 
+                          {% endif %}
+                          
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-lg-6">
+                      <div class="right-info">
+                        <ul>
+                          <li style="width:30%" ><i class="fa fa-star"></i> Game Map  <br>
+                          {% if tornaments_obj.game_map %}
+                          <strong>
+                            {{tornaments_obj.game_map}}
+                          </strong>
+                          {% else %}
+                          <strong>
+                            Comming Soon
+                          </strong>
+                          {% endif %} </li>
+
+
+                          <li style="width:30%" ><i class="fa fa-star"></i> Game Room ID  <br>
+                          {% if tornaments_obj.game_room_id %}
+                          <strong>
+                            {{tornaments_obj.game_room_id}}
+                          </strong>
+                          {% else %}
+                          <strong>
+                            Comming Soon
+                          </strong>
+                          {% endif %} 
+                          </li>
+
+                          <li style="width:30%" ><i class="fa fa-star"></i>Room Status  <br>
+                          {% if tornaments_obj.game_room_type == 'private' %}
+                          <strong>Private Game</strong> 
+                          {% elif tornaments_obj.game_room_type == 'public' %}
+                          <strong>
+                            Anyone can join 
+                          </strong>
+                          {% else %}
+                          <strong>
+                            Comming Soon
+                          </strong>
+                          {% endif %} 
+                          </li>
+                          
+                        </ul>
+                      </div>
+                    </div>
+                    <div class="col-lg-4">
+                      <img src="assets/images/details-01.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
+                    </div>
+                    <div class="col-lg-4">
+                      <img src="assets/images/details-02.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
+                    </div>
+                    <div class="col-lg-4">
+                      <img src="assets/images/details-03.jpg" alt="" style="border-radius: 23px; margin-bottom: 30px;">
+                    </div>
+                    <div class="col-lg-12">
+                      <p>{{tornaments_obj.discription}}.</p>
+                    </div>
+
+                    {% if tornaments_obj.fk_user != user_obj %}
+                      <div class="col-lg-12">
+                        <div class="main-border-button">
+                          <a href="#" onclick="JoinCustom('{{tornaments_obj.id}}', '{{user_obj.id}}' )" >Join Now!</a>
+                        </div>
+                      </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ***** Details End ***** -->
+
+          <!-- ***** Other Start ***** -->
+          <div class="other-games">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="heading-section">
+                  <h4><em>Other Related</em> Games</h4>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="item">
+                  <img src="assets/images/game-01.jpg" alt="" class="templatemo-item">
+                  <h4>Dota 2</h4><span>Sandbox</span>
+                  <ul>
+                    <li><i class="fa fa-star"></i> 4.8</li>
+                    <li><i class="fa fa-download"></i> 2.3M</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="item">
+                  <img src="assets/images/game-02.jpg" alt="" class="templatemo-item">
+                  <h4>Dota 2</h4><span>Sandbox</span>
+                  <ul>
+                    <li><i class="fa fa-star"></i> 4.8</li>
+                    <li><i class="fa fa-download"></i> 2.3M</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="item">
+                  <img src="assets/images/game-03.jpg" alt="" class="templatemo-item">
+                  <h4>Dota 2</h4><span>Sandbox</span>
+                  <ul>
+                    <li><i class="fa fa-star"></i> 4.8</li>
+                    <li><i class="fa fa-download"></i> 2.3M</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="item">
+                  <img src="assets/images/game-02.jpg" alt="" class="templatemo-item">
+                  <h4>Dota 2</h4><span>Sandbox</span>
+                  <ul>
+                    <li><i class="fa fa-star"></i> 4.8</li>
+                    <li><i class="fa fa-download"></i> 2.3M</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="item">
+                  <img src="assets/images/game-03.jpg" alt="" class="templatemo-item">
+                  <h4>Dota 2</h4><span>Sandbox</span>
+                  <ul>
+                    <li><i class="fa fa-star"></i> 4.8</li>
+                    <li><i class="fa fa-download"></i> 2.3M</li>
+                  </ul>
+                </div>
+              </div>
+              <div class="col-lg-6">
+                <div class="item">
+                  <img src="assets/images/game-01.jpg" alt="" class="templatemo-item">
+                  <h4>Dota 2</h4><span>Sandbox</span>
+                  <ul>
+                    <li><i class="fa fa-star"></i> 4.8</li>
+                    <li><i class="fa fa-download"></i> 2.3M</li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- ***** Other End ***** -->
+
+        </div>
+      </div>
+    </div>
+  </div>
+   {% endblock  %}
+
+
+{% block customScript %}
+
+  <script type="module" src="{% static 'CommonJS/common.js' %}"></script>
+  <script type="module" src="{% static 'assets/js/viewmore.js' %} "></script>
+
+{% endblock  %}
