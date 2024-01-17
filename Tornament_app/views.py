@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.views.decorators.cache import cache_control
 from Project_utilty.decorators import *
 from .models import *
-from datetime import datetime , timedelta , date
+from datetime import datetime , timedelta , date , timezone
 
 today = datetime.today()
 
@@ -27,7 +27,14 @@ def create_room(request):
 def browesTornaments(request):
     global today
     user_obj = is_authenticated(request)
-    tornaments_obj = Room_Master.objects.filter(created_dt__date__gte = today)
+    tornaments_obj = Room_Master.objects.all().order_by('-id')
+    for i in tornaments_obj:
+        if i.tornament_dt < today.replace(tzinfo=timezone.utc):
+            i.room_status = 'Closed'
+        elif i.tornament_dt >= today.replace(tzinfo=timezone.utc):
+            i.room_status = 'Open'
+        else:
+            i.room_status = "Upcomming"
     context ={
         'user_obj':user_obj,
         'tornaments_obj':tornaments_obj,
